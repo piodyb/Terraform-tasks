@@ -28,13 +28,13 @@ resource "aws_s3_bucket" "bucket_encrypted" {
 
 }
 
-resource "aws_s3_bucket_policy" "allow_access_from_iam_lambda_no_encryption" {
+resource "aws_s3_bucket_policy" "allow_access_from_iam_lambda" {
   for_each = {for k, v in var.bucket_list : k => v}
   bucket   = each.value.name
-  policy   = data.aws_iam_policy_document.allow_access_from_iam_lambda_no_encryption[each.key].json
+  policy   = data.aws_iam_policy_document.allow_access_from_iam_lambda[each.key].json
 }
 
-data "aws_iam_policy_document" "allow_access_from_iam_lambda_no_encryption" {
+data "aws_iam_policy_document" "allow_access_from_iam_lambda" {
   for_each = {for k, v in var.bucket_list : k => v}
   statement {
     principals {
